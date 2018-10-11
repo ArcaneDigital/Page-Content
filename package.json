@@ -1,11 +1,29 @@
 {
   "name": "page-content",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "name": "Jay Goodfellow",
+    "email": "j.goodfellow@arcane.ws"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArcaneDigital/Page-Content"
+  },
+  "license": "MIT",
+  "keywords": [
+    "content",
+    "html",
+    "parsing"
+  ],
+  "dependencies": {
+    "cheerio": "1.0.0-rc.2",
+    "reqdata": "2.0.0",
+    "traverse": "0.6.6",
+    "web-auto-extractor": "1.0.17"
+  }
 }
