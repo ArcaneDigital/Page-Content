@@ -56,7 +56,7 @@ function getMarkup(data) {
 
 function getMetaTags(html) {
   const $ = cheerio.load(html);
-  const doc = html.match(/^<\!DOCTYPE.*\>/i);
+  const doc = html.match(/^<\!DOCTYPE.*?\>/i);
   return {
     title: $("title").text() || "",
     "print-css": $("link[media=print]").attr("href") || "",
