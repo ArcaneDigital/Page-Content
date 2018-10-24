@@ -15,7 +15,7 @@ npm install page-content --save
 ```javascript
 const pc = require("page-content");
 
-pc.parseFromUrl("http://example.com").then(res => {
+pc.parseFromURL("http://example.com").then(res => {
   console.log(res);
 });
 ```
