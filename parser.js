@@ -2,6 +2,8 @@ const cheerio = require("cheerio");
 const traverse = require("traverse");
 const WAE = require("web-auto-extractor").default;
 module.exports = html => {
+  if (!html) return null;
+
   var parsed = { rdfa: {}, jsonld: {}, microdata: {} };
   try {
     parsed = WAE().parse(html);
