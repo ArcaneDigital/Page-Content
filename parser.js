@@ -2,8 +2,11 @@ const cheerio = require("cheerio");
 const traverse = require("traverse");
 const WAE = require("web-auto-extractor").default;
 module.exports = html => {
+  var parsed = { rdfa: {}, jsonld: {}, microdata: {} };
+  try {
+    parsed = WAE().parse(html);
+  } catch (e) {}
   const paragraphs = getParagraphs(html);
-  const parsed = WAE().parse(html);
   const results = {
     markup: getMarkup(html),
     meta: getMetaTags(html),
@@ -232,11 +235,11 @@ function getParagraphs(raw) {
     $(this).remove();
   });
   const p = paragraphs.reduce(function(acc, cur) {
-    const cleaned = tighten(cur.replace(/\W/g, ""));
-    const filtered = tighten(cur);
-    const words = filtered.split(" ");
-
-    if (cleaned.length > 0 && words.length > 3) acc.push(cur);
+    //Images are making it through previous filter. Blocking them here for now.
+    const text = cur.replace(/<img .*?>/gim, "");
+    const cleaned = tighten(text.replace(/\W/g, " "));
+    const words = cleaned.split(" ");
+    if (cleaned.length > 0 && words.length > 3) acc.push(text);
     return acc;
   }, []);
 
