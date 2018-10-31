@@ -32,11 +32,16 @@ module.exports = html => {
 function getText(data) {
   const $ = cheerio.load(data);
   $("iframe,noscript").remove();
+  //removing emojis using regex from lodash library - https://github.com/lodash/lodash/blob/4.16.6/lodash.js
   return $
     .text()
     .replace(/[\u0021-\u002F;]/g, " ")
     .replace(/[\u2000-\u27F0;]/g, " ")
     .replace(/[\u0080-\u00BF;]/g, " ")
+    .replace(
+      /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?(?:\u200d(?:[^\ud800-\udfff]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?)*/gim,
+      " "
+    )
     .replace(/\s+/g, " ")
     .toLowerCase();
 }
@@ -55,8 +60,17 @@ function getMarkup(data) {
   };
 
   $("strong, em, i, b, small, sub, sup, figcaption, legend").each(function() {
-    if (this.tagName && $(this).text().length > 0)
-      markup[this.tagName].push($(this).text());
+    if (
+      this.tagName &&
+      $(this)
+        .text()
+        .trim().length > 0
+    )
+      markup[this.tagName].push(
+        $(this)
+          .text()
+          .trim()
+      );
   });
 
   return markup;
