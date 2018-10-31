@@ -50,10 +50,11 @@ function getMarkup(data) {
     small: [],
     sub: [],
     sup: [],
-    figcaption: []
+    figcaption: [],
+    legend: []
   };
 
-  $("strong, em, i, b, small, sub, sup, figcaption").each(function() {
+  $("strong, em, i, b, small, sub, sup, figcaption, legend").each(function() {
     if (this.tagName && $(this).text().length > 0)
       markup[this.tagName].push($(this).text());
   });
