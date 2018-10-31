@@ -33,9 +33,9 @@ function getText(data) {
   const $ = cheerio.load(data);
   return $
     .text()
-    .replace(/[\u0021-\u002F;]/g, "")
-    .replace(/[\u2000-\u27F0;]/g, "")
-    .replace(/[\u0080-\u00BF;]/g, "")
+    .replace(/[\u0021-\u002F;]/g, " ")
+    .replace(/[\u2000-\u27F0;]/g, " ")
+    .replace(/[\u0080-\u00BF;]/g, " ")
     .toLowerCase();
 }
 function getMarkup(data) {
@@ -175,8 +175,41 @@ function getMetaTags(html) {
 
 function getLinks(data) {
   let $ = cheerio.load(data);
-  $("header,footer,form,button,nav").remove();
   const links = [];
+  $("form,button").remove();
+
+  $("header a, .header a, #header a").each(function(index) {
+    if (
+      $(this)
+        .text()
+        .trim().length > 0
+    ) {
+      links.push({
+        anchor: $(this).attr("href") || null,
+        text: $(this).text() || "",
+        rel: $(this).attr("rel") || null,
+        location: "header"
+      });
+      $(this).remove();
+    }
+  });
+
+  $("footer a, .footer a, #footer a").each(function(index) {
+    if (
+      $(this)
+        .text()
+        .trim().length > 0
+    ) {
+      links.push({
+        anchor: $(this).attr("href") || null,
+        text: $(this).text() || "",
+        rel: $(this).attr("rel") || null,
+        location: "footer"
+      });
+      $(this).remove();
+    }
+  });
+
   $("a").each(function(index) {
     if (
       $(this)
@@ -186,7 +219,8 @@ function getLinks(data) {
       links.push({
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
-        rel: $(this).attr("rel") || null
+        rel: $(this).attr("rel") || null,
+        location: "body"
       });
   });
   return links;
@@ -267,9 +301,5 @@ function getHeaders(data) {
 }
 
 function tighten(text) {
-  return text
-    .replace(/\s+/g, " ")
-    .replace(/\s+/g, " ")
-    .replace(/(\s?-\s)/g, "")
-    .trim();
+  return text.replace(/\s+/g, "").trim();
 }
