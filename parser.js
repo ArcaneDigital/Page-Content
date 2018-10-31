@@ -31,11 +31,13 @@ module.exports = html => {
 
 function getText(data) {
   const $ = cheerio.load(data);
+  $("iframe,noscript").remove();
   return $
     .text()
     .replace(/[\u0021-\u002F;]/g, " ")
     .replace(/[\u2000-\u27F0;]/g, " ")
     .replace(/[\u0080-\u00BF;]/g, " ")
+    .replace(/\s+/g, " ")
     .toLowerCase();
 }
 function getMarkup(data) {
@@ -301,5 +303,5 @@ function getHeaders(data) {
 }
 
 function tighten(text) {
-  return text.replace(/\s+/g, "").trim();
+  return text.replace(/\s+/g, " ").trim();
 }
