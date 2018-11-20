@@ -205,6 +205,7 @@ function getLinks(data) {
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
         rel: $(this).attr("rel") || null,
+        charset: $(el).attr("charset") || "",
         location: "header"
       });
       $(this).remove();
@@ -221,6 +222,7 @@ function getLinks(data) {
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
         rel: $(this).attr("rel") || null,
+        charset: $(el).attr("charset") || "",
         location: "footer"
       });
       $(this).remove();
@@ -237,6 +239,7 @@ function getLinks(data) {
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
         rel: $(this).attr("rel") || null,
+        charset: $(el).attr("charset") || "",
         location: "body"
       });
   });
