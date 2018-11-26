@@ -19,7 +19,9 @@ module.exports = html => {
     microdata: parsed.microdata,
     rdfa: parsed.rdfa,
     jsonld: parsed.jsonld,
-    text: getText(html)
+    text: getText(html),
+    scripts: getScripts(html),
+    styles: getStyles(html)
   };
 
   traverse(results).forEach(function(x) {
@@ -28,6 +30,24 @@ module.exports = html => {
 
   return results;
 };
+function getScripts(html) {
+  const $ = cheerio.load(html);
+  const scripts = [];
+  $("script").each((i, c) => {
+    const src = $(c).attr("src");
+    if (src) scripts.push(src);
+  });
+  return scripts;
+}
+function getStyles(html) {
+  const $ = cheerio.load(html);
+  const styles = [];
+  $("link[rel=stylesheet]").each((i, c) => {
+    const href = $(c).attr("href");
+    if (href) styles.push(href);
+  });
+  return styles;
+}
 
 function getText(data) {
   const $ = cheerio.load(data);
@@ -205,7 +225,7 @@ function getLinks(data) {
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
         rel: $(this).attr("rel") || null,
-        charset: $(el).attr("charset") || "",
+        charset: $(this).attr("charset") || "",
         location: "header"
       });
       $(this).remove();
@@ -222,7 +242,7 @@ function getLinks(data) {
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
         rel: $(this).attr("rel") || null,
-        charset: $(el).attr("charset") || "",
+        charset: $(this).attr("charset") || "",
         location: "footer"
       });
       $(this).remove();
@@ -239,7 +259,7 @@ function getLinks(data) {
         anchor: $(this).attr("href") || null,
         text: $(this).text() || "",
         rel: $(this).attr("rel") || null,
-        charset: $(el).attr("charset") || "",
+        charset: $(this).attr("charset") || "",
         location: "body"
       });
   });
