@@ -53,8 +53,7 @@ function getText(data) {
   const $ = cheerio.load(data);
   $("iframe,noscript").remove();
   //removing emojis using regex from lodash library - https://github.com/lodash/lodash/blob/4.16.6/lodash.js
-  return $
-    .text()
+  return $.text()
     .replace(/[\u0021-\u002F;]/g, " ")
     .replace(/[\u2000-\u27F0;]/g, " ")
     .replace(/[\u0080-\u00BF;]/g, " ")
@@ -103,6 +102,7 @@ function getMetaTags(html) {
     title: $("title").text() || "",
     "print-css": $("link[media=print]").attr("href") || "",
     "meta-description": $("meta[name=description]").attr("content") || "",
+    "meta-keywords": $("meta[name=keywords]").attr("content") || "",
     robots: $("meta[name=robots]").attr("content") || "",
     "link-canonical": $("link[rel=canonical]").attr("href") || "",
     "link-manifest": $("link[rel=manifest]").attr("href") || "",
